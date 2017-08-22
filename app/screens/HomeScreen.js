@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Root } from './app/config/Router'
 
-export default class App extends React.Component {
+
+class HomeScreen extends React.Component {
   render() {
     return (
-      <Root />
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
+      </View>
     );
   }
 }
@@ -18,3 +20,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+module.exports = HomeScreen;

@@ -1,15 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Root } from './app/config/Router'
 
-export default class App extends React.Component {
+
+class MeScreen extends React.Component {
   render() {
     return (
-      <Root />
+      <View style={styles.container}>
+        <Text>'More'</Text>
+      </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,3 +19,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+module.exports = MeScreen;
