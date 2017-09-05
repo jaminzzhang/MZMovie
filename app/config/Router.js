@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements'
 import HomeScreen from '../screens/HomeScreen'
 import MeScreen from '../screens/MeScreen'
 import ExploreScreen from '../screens/ExploreScreen'
+import Constants from '../constants/Constants'
 
 //I18n
 
@@ -24,8 +25,8 @@ export const HomeStack = StackNavigator({
 }, {
   navigationOptions: {
     headerStyle: {
-      height: Constants.statusBarHeight + (Platform.OS === "ios" ? 44 : 56),
-      paddingTop: Platform.OS === "ios" ? 20 : Constants.statusBarHeight,
+      // height: Constants.statusBarHeight + (Platform.OS === "ios" ? 44 : 56),
+      // paddingTop: Platform.OS === "ios" ? 20 : Constants.statusBarHeight,
     }
   }
 });
