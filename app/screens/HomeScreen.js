@@ -38,14 +38,23 @@ class HomeScreen extends React.Component {
         },
       ],
       miniEntranceSection: {
-        sectionTitle: '入口',
-        list: [
-          {title: '#专题#Banner1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-          {title: 'Banner2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-          {title: '测试长字串看看', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
+        key: 'filmReviews',
+        title: '影评',
+        data: [
+          {title: 'reivew1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
+          {title: 'reivew2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
+          {title: 'review3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
 
         ],
       },
+
+
+      miniEntranceList : [[
+        {title: 'reivew1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
+        {title: 'reivew2', imgUrl: 'http://www.barrymellorphotography.co.uk/assets/Uploads/landscapes-13.jpg'},
+        {title: 'review3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
+      ]],
+
       filmReviewList: [
         {title: 'E1', imgUrl: ''},
         {title: 'E2', imgUrl: ''}
@@ -80,13 +89,11 @@ class HomeScreen extends React.Component {
                   style={styles.slide}
                   title={<Text numberOfLines={1} style={{fontSize: 17}}>{item.title}</Text>}
                   >
-                  <Image resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }}/>
+                  <Image key={'slide' + i} resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }}/>
                 </View>
               );
             })
           }
-
-
         </Swiper>
       </View>
 
@@ -95,22 +102,45 @@ class HomeScreen extends React.Component {
 
 
   _renderItem = (sectionItem) => {
-    console.log(sectionItem);
+    // console.log(sectionItem);
     return (
       <View style={styles.miniEntrance}>
-      {
-        this._renderEntranceItem(sectionItem.item, sectionItem.index)
-      }
+        {
+          this._renderEntranceItem(sectionItem.item, sectionItem.index)
+        }
+      </View>
+    );
+  };
+
+
+  _renderEntranceSectionItem = (sectionItem) => {
+    // console.log(sectionItem);
+    return (
+      <View
+        key='miniEntrance'
+        style={styles.miniEntrance}
+        >
+        {
+          sectionItem.item.map((item, i) => {
+            this._renderEntranceItem(item, i);
+          })
+        }
       </View>
     );
   };
 
   _renderEntranceItem = (item, i)=> {
-    console.log(item);
+    // console.log(item);
+    return (<Text style={styles.miniEntranceTitle} numberOfLines={1}>
+      {item.title}
+    </Text>
+);
     return (
       <TouchableOpacity
         key={'miniEntrItem' + i}
-        style={styles.miniEntranceItem}>
+        style={styles.miniEntranceItem}
+        >
+
         <Image key='miniEntrItemImage' source={{ uri: item.imgUrl }} style={styles.miniEntranceImage} />
         <View style={styles.miniEntranceTitleView}>
           <Text style={styles.miniEntranceTitle} numberOfLines={1}>
@@ -120,31 +150,6 @@ class HomeScreen extends React.Component {
 
       </TouchableOpacity>
     );
-
-
-    console.log(item);
-    return (
-      <View style={styles.miniEntrance}>
-        {
-          item.map((item, i) => {
-            return (
-              <TouchableOpacity
-                key='miniEntrItem'
-                style={styles.miniEntranceItem}>
-                <Image key='miniEntrItemImage' source={{ uri: item.imgUrl }} style={styles.miniEntranceImage} />
-                <View style={styles.miniEntranceTitleView}>
-                  <Text style={styles.miniEntranceTitle} numberOfLines={1}>
-                    {item.title}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })
-        }
-      </View>
-    );
-
-
   };
 
 
@@ -159,30 +164,36 @@ class HomeScreen extends React.Component {
   _renderSectionHeader = (section) => {
     return (
       <View
-          key={'sectionHeader' + section}
-          style={height=32}
-           />
+        key={'sectionHeader' + section}
+        style={height=32}
+        />
     );
   };
 
+  _keyExtractor = ((item, index) => {
+    return 'homte' + item.title + index;
+  })
+
   render() {
-      return (
-        <View style={styles.container}>
-          <SectionList
-            key='SectionList'
-            ListHeaderComponent={this._renderHeader}
-            renderSectionHeader={this._renderSectionHeader}
-            renderItem={this._renderItem}
-            sections={
-              this.state.sectionItemList
-            }>
-          </SectionList>
-        </View>
-      );
-    }
-  };
+    return (
+      <View style={styles.container}>
+        <SectionList
+          key='SectionList'
+          // ListHeaderComponent={this._renderHeader}
+          // renderSectionHeader={this._renderSectionHeader}
+          keyExtractor={this._keyExtractor}
+          sections={[
+            {data: this.state.miniEntranceList, renderItem: this._renderEntranceSectionItem},
+          ]}>
+        </SectionList>
+      </View>
+    );
+  }
+};
 
 
+
+//StyleSheet
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -192,12 +203,11 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: SCREEN_WIDTH * 0.5,
-    marginBottom: 48,
+    // marginBottom: 48,
   },
 
   banner: {
-    height: SCREEN_WIDTH * 0.5,
+    flex: 1,
   },
 
   // bannerTitle: {
@@ -213,16 +223,16 @@ const styles = StyleSheet.create({
 
   slideImage: {
     flex: 1,
-    width: SCREEN_WIDTH,
+    marginLeft: 0,
   },
 
   miniEntrance: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
   },
 
+  miniEntranceItem: {
+    width: SCREEN_WIDTH/4,
+    height: SCREEN_WIDTH/4,
+  },
   miniEntranceImage: {
     width: SCREEN_WIDTH/4,
     height: SCREEN_WIDTH/4,
