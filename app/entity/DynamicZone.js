@@ -2,7 +2,7 @@
 class DynamicZone {
   constructor() {
     this.title = '';
-    this.tubtitle = '';
+    this.subtitle = '';
     this.bgUrl = '';
     this.items = [];
   }
@@ -13,9 +13,12 @@ class DynamicZone {
 class DynamicItem {
   constructor() {
     this.title = '';
-    this.tubtitle = '';
+    this.subtitle = '';
     this.imgUrl = '';
     this.routerUrl = '';
     this.enable = true;
   }
 }
+
+
+module.exports = DynamicZone;

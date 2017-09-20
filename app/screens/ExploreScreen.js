@@ -5,6 +5,8 @@ import Swiper from 'react-native-swiper';
 import Global from '../constants/Global'
 import UIConstants from '../constants/UIConstants'
 
+import MiniEntranceView from './components/MiniEntranceView'
+
 
 class ExploreScreen extends React.Component {
 
@@ -31,6 +33,35 @@ class ExploreScreen extends React.Component {
           routerUrl: 'mzm://mz.com/e2'
         }
       ],
+
+      miniEntranceZone: {
+        items: [
+          {
+            title: '入口1',
+            subtitle: '这是一个测试入口1',
+            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
+            routerUrl: 'mzm://mz.com/e1'
+          },
+          {
+            title: '入口2',
+            subtitle: '这是一个测试入口2',
+            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
+            routerUrl: 'mzm://mz.com/e2'
+          },
+          {
+            title: '入口1',
+            subtitle: '这是一个测试入口1',
+            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
+            routerUrl: 'mzm://mz.com/e1'
+          },
+          {
+            title: '入口2',
+            subtitle: '这是一个测试入口2',
+            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
+            routerUrl: 'mzm://mz.com/e2'
+          }
+        ]
+      },
 
       recommendFilmList: [
         {
@@ -116,9 +147,7 @@ class ExploreScreen extends React.Component {
         {
           this._renderBanner()
         }
-        {
-          this._renderEntrances()
-        }
+        <MiniEntranceView entranceZone={this.state.miniEntranceZone}></MiniEntranceView>
       </View>
     );
   }
@@ -150,34 +179,6 @@ class ExploreScreen extends React.Component {
     );
   };
 
-
-  _renderEntranceItem = (item, i) => {
-    return (
-      <TouchableOpacity style={styles.entranceItem} key={i}>
-        <Image style={styles.itemThumb} source={{ uri: item.imgUrl }} />
-        <View style={styles.itemTitleView}>
-          <Text style={styles.itemTitle} numberOfLines={2}>
-            { item.title }
-          </Text>
-          <Text style={styles.itemSubtitle}>
-            { item.subtitle }
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  _renderEntrances = () => {
-    return (
-      <View style={styles.entrancesContainer}>
-        {
-          this.state.miniEntranceList.map((item, i) => {
-            return this._renderEntranceItem(item, i);
-          })
-        }
-      </View>
-    );
-  };
 
   _renderSectionHeader = () => {
     return (
@@ -272,49 +273,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-
-  entrancesContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    height: 80,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-
-  entranceItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: SCREEN_WIDTH/2 - 20,
-  },
-
-  itemThumb: {
-    backgroundColor: '#F5FCFF',
-    alignItems: 'center',
-    width: 64,
-    height: 64
-  },
-
-  itemTitleView: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-
-  itemTitle: {
-    fontSize: 13,
-    padding: 3
-  },
-
-
-  itemSubtitle: {
-    fontSize:13,
-    padding:3,
-    color:'#ff8202'
-  },
-
-
 
 });
 
