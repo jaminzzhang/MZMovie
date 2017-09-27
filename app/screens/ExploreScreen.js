@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Dimensions} from 'react-native';
 import Swiper from 'react-native-swiper';
 
-import Global from '../constants/Global'
-import UIConstants from '../constants/UIConstants'
+import Global from '../constants/Global';
+import UIConstants from '../constants/UIConstants';
+import ActionTypes from '../constants/ActionTypes';
+import { fetchData } from '../store/MZStore';
 
 import MiniEntranceView from './components/MiniEntranceView'
 
@@ -13,131 +15,24 @@ class ExploreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bannerList: [
-        {title: '#专题#Banner1', imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg'},
-        {title: 'Banner2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-        {title: '测试长字串看看', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-      ],
-
-      miniEntranceList: [
-        {
-          title: '入口1',
-          subtitle: '这是一个测试入口1',
-          imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          routerUrl: 'mzm://mz.com/e1'
-        },
-        {
-          title: '入口2',
-          subtitle: '这是一个测试入口2',
-          imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          routerUrl: 'mzm://mz.com/e2'
-        }
-      ],
-
-      miniEntranceZone: {
-        items: [
-          {
-            title: '入口1',
-            subtitle: '这是一个测试入口1',
-            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-            routerUrl: 'mzm://mz.com/e1'
-          },
-          {
-            title: '入口2',
-            subtitle: '这是一个测试入口2',
-            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-            routerUrl: 'mzm://mz.com/e2'
-          },
-          {
-            title: '入口1',
-            subtitle: '这是一个测试入口1',
-            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-            routerUrl: 'mzm://mz.com/e1'
-          },
-          {
-            title: '入口2',
-            subtitle: '这是一个测试入口2',
-            imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-            routerUrl: 'mzm://mz.com/e2'
-          }
-        ]
-      },
-
-      recommendFilmList: [
-        {
-          title: '测试1',
-          imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
-        },
-        {
-          title: '测试1',
-          imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
-        },
-        {
-          title: '测试1',
-          imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
-        }
-      ],
-
-      list: [
-        {
-          title: '电影推荐',
-          key: 'recommend',
-          items: [
-            {
-              title: '测试1',
-              imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            },
-            {
-              title: '测试1',
-              imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            },
-            {
-              title: '测试1',
-              imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            }
-          ]
-        },
-
-        {
-          title: '精彩影评',
-          key: 'reviews',
-          items: [
-            {
-              title: '测试1',
-              imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            },
-            {
-              title: '测试1',
-              imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            },
-            {
-              title: '测试1',
-              imgUrl: 'http://api.shunliandongli.com/v1/Channel/content.json?channel_id=1',
-              subtitlePrefix: '122',
-              subtitleSufix: '3232'
-            }
-          ]
-        }
-
-      ],
-    };
+      pageData: {}
+    }
   }
+
+
+  componentDidMount() {
+    // var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
+    // console.log('start fetch explore page' + action);
+    // fetchData(action).then(function(result) {
+    //   console.log(result)
+    //   this.setState({
+    //     pageData: result
+    //   });
+    // }).catch(function(result) {
+    //
+    // });
+  }
+
 
 
 
@@ -145,16 +40,21 @@ class ExploreScreen extends React.Component {
     return (
       <View style={{backgroundColor:'#ffffff'}}>
         {
-          this._renderBanner()
+          this.state.pageData.bannerZone ? this._renderBanner() : null
         }
-        <MiniEntranceView entranceZone={this.state.miniEntranceZone}></MiniEntranceView>
+        {
+          this.state.pageData.miniEntranceZone ?  <MiniEntranceView entranceZone={this.state.pageData.miniEntranceZone}/> : null
+        }
+
       </View>
     );
   }
 
 
-  _renderBanner = () => {
 
+
+  _renderBanner = () => {
+    console.log(this.state.pageData.bannerZone);
     return (
       <View>
         <Swiper
@@ -165,7 +65,7 @@ class ExploreScreen extends React.Component {
           paginationStyle  = {[{ position:'absolute',bottom:5,},{bottom:10}]}
           >
           {
-            this.state.bannerList.map((item, i) => {
+            this.state.pageData.bannerZone.items.map((item, i) => {
               return (
                 <View key={i} style={styles.slide} >
                   <Image resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }} />
@@ -224,7 +124,10 @@ _keyExtractor = ((item, index) => {
 
 
 render() {
+  console.log('Start render');
+  console.log(this.state.pageData);
   return (
+    this.state.pageData.hotAlubmZone ?
     <SectionList
       contentContainerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }}
       stickySectionHeadersEnabled = {false}
@@ -233,9 +136,10 @@ render() {
       keyExtractor={this._keyExtractor}
       renderItem={this._renderItem}
       sections={[
-        { key: 'sectionLis', data: this.state.list }
+        { key: 'sectionLis', data: this.state.pageData.hotAlubmZone ? this.state.pageData.hotAlubmZone.items : [] }
       ]}>
     </SectionList>
+    : null
   );
 }
 
