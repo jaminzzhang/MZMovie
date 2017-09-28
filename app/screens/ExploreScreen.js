@@ -15,28 +15,32 @@ class ExploreScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageData: {}
+      pageData: {
+        bannerZone: {},
+        miniEntranceZone: {}
+      }
     }
   }
 
 
   componentDidMount() {
-    // var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
-    // console.log('start fetch explore page' + action);
-    // fetchData(action).then(function(result) {
-    //   console.log(result)
-    //   this.setState({
-    //     pageData: result
-    //   });
-    // }).catch(function(result) {
-    //
-    // });
+    var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
+    console.log('start fetch explore page' + action);
+    var that = this;
+    fetchData(action).then((result) => {
+      console.log('Result')
+      console.log(result)
+      console.log(this);
+      this.setState({
+        pageData: result
+      });
+    }).catch(function(result) {
+
+    });
   }
 
-
-
-
   _renderHeader = () => {
+    console.log('render header')
     return (
       <View style={{backgroundColor:'#ffffff'}}>
         {

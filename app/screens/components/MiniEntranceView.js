@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { DynamicZone, DynamicItem } from '../../entity/DynamicZone'
+import PropTypes from 'prop-types';
 
 
 export default class MiniEntranceView extends Component {
 
   static propTypes = {
-    entranceZone: React.PropTypes.object
+    entranceZone: PropTypes.object
   }
 
   render() {
@@ -81,7 +82,6 @@ const styles =  StyleSheet.create({
       fontSize: 13,
       padding: 3
     },
-
 
     itemSubtitle: {
       fontSize:13,

@@ -96,8 +96,10 @@ function fetchHomePageData(resolve, reject) {
   };
 
   setTimeout(function() {
+    console.log('resolve')
     resolve(data);
   }, 500);
+  console.log('End fetchHomePageData');
 }
 
 
