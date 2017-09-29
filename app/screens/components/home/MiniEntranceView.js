@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { DynamicZone, DynamicItem } from '../../entity/DynamicZone'
+import { DynamicZone, DynamicItem } from '../../../entity/DynamicZone'
 import PropTypes from 'prop-types';
 
 
@@ -62,14 +62,14 @@ const styles =  StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       width: SCREEN_WIDTH/2 - 20,
-      height: 80,
+      height: 64,
     },
 
     itemThumb: {
       backgroundColor: '#F5FCFF',
       alignItems: 'center',
-      width: 64,
-      height: 64,
+      width: 44,
+      height: 44,
       backgroundColor: 'red'
     },
 

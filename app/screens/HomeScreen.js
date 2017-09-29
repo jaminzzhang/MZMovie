@@ -1,95 +1,76 @@
+'use strict';
+
 import React from 'react';
-import { StyleSheet, Dimensions, Text, View, Image, SectionList, TouchableOpacity } from 'react-native';
-import { Tile } from 'react-native-elements';
+import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Dimensions} from 'react-native';
 import Swiper from 'react-native-swiper';
 
-var SCREEN_WIDTH = Dimensions.get('window').width;
+import Global from '../constants/Global';
+import UIConstants from '../constants/UIConstants';
+import ActionTypes from '../constants/ActionTypes';
+import { fetchData } from '../store/MZStore';
+
+import MiniEntranceView from './components/home/MiniEntranceView'
+
 
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      bannerList: [
-        {title: '#专题#Banner1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-        {title: 'Banner2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-        {title: '测试长字串看看', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-      ],
-      sectionItemList: [
+      pageData: {
+        bannerZone: {},
+        miniEntranceZone: {}
+      }
+    }
+  }
+
+
+  componentDidMount() {
+    var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
+    fetchData(action).then((result) => {
+      console.log('Result')
+      this.setState({
+        pageData: result
+      });
+    }).catch(function(result) {
+
+    });
+  }
+
+  _renderHeader = () => {
+    console.log('render header')
+    return (
+      <View style={{backgroundColor:'#ffffff'}}>
         {
-          key: 'entrances',
-          title: '入口',
-          data: [
-            {title: 'entrance1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-            {title: 'entrance2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-            {title: 'entrance3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-
-          ],
-        },
+          this.state.pageData.bannerZone ? this._renderBanner() : null
+        }
         {
-          key: 'filmReviews',
-          title: '影评',
-          data: [
-            {title: 'reivew1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-            {title: 'reivew2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-            {title: 'review3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
+          this.state.pageData.miniEntranceZone ?  <MiniEntranceView entranceZone={this.state.pageData.miniEntranceZone}/> : null
+        }
 
-          ],
-        },
-      ],
-      miniEntranceSection: {
-        key: 'filmReviews',
-        title: '影评',
-        data: [
-          {title: 'reivew1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-          {title: 'reivew2', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-          {title: 'review3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-
-        ],
-      },
-
-
-      miniEntranceList : [[
-        {title: 'reivew1', imgUrl: 'https://tse4-mm.cn.bing.net/th?id=OIP.JLFjnk7qoiXkhr7EoiPirAEsDG&p=0&pid=1.1'},
-        {title: 'reivew2', imgUrl: 'http://www.barrymellorphotography.co.uk/assets/Uploads/landscapes-13.jpg'},
-        {title: 'review3', imgUrl: 'https://tse1-mm.cn.bing.net/th?id=OIP.uRsOUJY4cyGkPWnKuDAB0AEsCo&p=0&pid=1.1'},
-      ]],
-
-      filmReviewList: [
-        {title: 'E1', imgUrl: ''},
-        {title: 'E2', imgUrl: ''}
-      ]
-    };
+      </View>
+    );
   }
 
 
 
 
-  _renderHeader = ()=> {
+  _renderBanner = () => {
+    console.log(this.state.pageData.bannerZone);
     return (
-      <View
-        key='header'
-        style={styles.header}
-        height = {SCREEN_WIDTH * 0.5}
-        >
+      <View>
         <Swiper
-          key="banner"
-          style={styles.banner}
-          height={SCREEN_WIDTH * 0.5}
-          autoplay={true}
-          dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-          activeDot={<View style={{backgroundColor: '#000', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-          paginationStyle={{ bottom: -23, left: null, right: 10 }}
+          height = {Math.floor(SCREEN_WIDTH*0.333)}
+          dotColor ="white"
+          activeDotColor = "#ed6d00"
+          autoplayTimeout={1}
+          paginationStyle  = {[{ position:'absolute',bottom:5,},{bottom:10}]}
           >
           {
-            this.state.bannerList.map((item, i) => {
+            this.state.pageData.bannerZone.items.map((item, i) => {
               return (
-                <View
-                  key={'banner' + i}
-                  style={styles.slide}
-                  title={<Text numberOfLines={1} style={{fontSize: 17}}>{item.title}</Text>}
-                  >
-                  <Image key={'slide' + i} resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }}/>
+                <View key={i} style={styles.slide} >
+                  <Image resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }} />
                 </View>
               );
             })
@@ -101,142 +82,103 @@ class HomeScreen extends React.Component {
   };
 
 
-  _renderItem = (sectionItem) => {
-    // console.log(sectionItem);
+  _renderSectionHeader = () => {
     return (
-      <View style={styles.miniEntrance}>
-        {
-          this._renderEntranceItem(sectionItem.item, sectionItem.index)
-        }
-      </View>
-    );
-  };
-
-
-  _renderEntranceSectionItem = (sectionItem) => {
-    // console.log(sectionItem);
-    return (
-      <View
-        key='miniEntrance'
-        style={styles.miniEntrance}
-        >
-        {
-          sectionItem.item.map((item, i) => {
-            this._renderEntranceItem(item, i);
-          })
-        }
-      </View>
-    );
-  };
-
-  _renderEntranceItem = (item, i)=> {
-    // console.log(item);
-    return (<Text style={styles.miniEntranceTitle} numberOfLines={1}>
-      {item.title}
-    </Text>
-);
-    return (
-      <TouchableOpacity
-        key={'miniEntrItem' + i}
-        style={styles.miniEntranceItem}
-        >
-
-        <Image key='miniEntrItemImage' source={{ uri: item.imgUrl }} style={styles.miniEntranceImage} />
-        <View style={styles.miniEntranceTitleView}>
-          <Text style={styles.miniEntranceTitle} numberOfLines={1}>
-            {item.title}
-          </Text>
+      <View style={styles.sectionHeader}>
+        <View style={styles.headerInner}>
+          <Image source={require('../../assets/title_point_r_left.png')}/>
+          <Text style={{marginLeft: 10}}>精评推荐</Text>
+          <Image source={require('../../assets/title_point_r_right.png')}/>
         </View>
-
-      </TouchableOpacity>
-    );
-  };
-
-
-  _renderFilmReviewItem = (item) => {
-    // console.log(item);
-    return (
-      <View key='FilmReview'></View>
-    );
-  };
-
-
-  _renderSectionHeader = (section) => {
-    return (
-      <View
-        key={'sectionHeader' + section}
-        style={height=32}
-        />
-    );
-  };
-
-  _keyExtractor = ((item, index) => {
-    return 'homte' + item.title + index;
-  })
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <SectionList
-          key='SectionList'
-          // ListHeaderComponent={this._renderHeader}
-          // renderSectionHeader={this._renderSectionHeader}
-          keyExtractor={this._keyExtractor}
-          sections={[
-            {data: this.state.miniEntranceList, renderItem: this._renderEntranceSectionItem},
-          ]}>
-        </SectionList>
       </View>
     );
   }
-};
+
+  _renderItem = (item) => {
+    console.log(item);
+    return (
+      <TouchableOpacity style={styles.sectionItem}>
+        <Image style={styles.itemThumb} source={{ uri: item.imgUrl }} />
+        <View style={styles.itemTitleView}>
+          <Text style={styles.itemTitle} numberOfLines={2}>
+            { item.title }
+          </Text>
+        </View>
+        <View style={styles.itemSubtitleView}>
+          <Text style={styles.itemSubtitlePrefix}>
+            { item.subtitlePrefix }
+          </Text>
+          <Text style={styles.itemSubtitleSufix}>
+            { item.subtitleSufix }
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+
+  }
+
+
+_keyExtractor = ((item, index) => {
+  let key = "Explore" + item.title + index;
+  return key;
+})
 
 
 
-//StyleSheet
+render() {
+  console.log('Start render');
+  console.log(this.state.pageData);
+  return (
+    this.state.pageData.hotAlubmZone ?
+    <SectionList
+      contentContainerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }}
+      stickySectionHeadersEnabled = {false}
+      ListHeaderComponent={this._renderHeader}
+      renderSectionHeader={this._renderSectionHeader}
+      keyExtractor={this._keyExtractor}
+      renderItem={this._renderItem}
+      sections={[
+        { key: 'sectionLis', data: this.state.pageData.hotAlubmZone ? this.state.pageData.hotAlubmZone.items : [] }
+      ]}>
+    </SectionList>
+    : null
+  );
+}
+
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 
   header: {
-    // marginBottom: 48,
-  },
-
-  banner: {
     flex: 1,
   },
-
-  // bannerTitle: {
-  //   flex: 1,
-  //   justifyContent: 'space-between'
-  // },
 
   slide: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 
   slideImage: {
     flex: 1,
-    marginLeft: 0,
+    margin: 10,
   },
 
-  miniEntrance: {
+  sectionHeader: {
+    flex: 1,
+    width: SCREEN_WIDTH,
+    backgroundColor: '#ededed',
+    paddingTop: 10,
   },
 
-  miniEntranceItem: {
-    width: SCREEN_WIDTH/4,
-    height: SCREEN_WIDTH/4,
+  headerInner: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  miniEntranceImage: {
-    width: SCREEN_WIDTH/4,
-    height: SCREEN_WIDTH/4,
-  }
 
 });
 

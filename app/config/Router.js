@@ -75,7 +75,7 @@ export const Tabs = TabNavigator({
     }
   }
 }, {
-  initialRouteName: 'Explore',
+  // initialRouteName: 'Explore',
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
   // swipeEnabled: false,

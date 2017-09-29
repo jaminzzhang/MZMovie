@@ -65,7 +65,8 @@ function fetchHomePageData(resolve, reject) {
           subtitle: '这是一个测试入口2',
           imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
           routerUrl: 'mzm://mz.com/e2'
-        }
+        },
+        
       ]
     },
 

@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Dimensions} from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -7,7 +9,7 @@ import UIConstants from '../constants/UIConstants';
 import ActionTypes from '../constants/ActionTypes';
 import { fetchData } from '../store/MZStore';
 
-import MiniEntranceView from './components/MiniEntranceView'
+import MiniEntranceView from './components/home/MiniEntranceView'
 
 
 class ExploreScreen extends React.Component {
@@ -25,12 +27,8 @@ class ExploreScreen extends React.Component {
 
   componentDidMount() {
     var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
-    console.log('start fetch explore page' + action);
-    var that = this;
     fetchData(action).then((result) => {
       console.log('Result')
-      console.log(result)
-      console.log(this);
       this.setState({
         pageData: result
       });
