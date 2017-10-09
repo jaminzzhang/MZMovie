@@ -28,7 +28,7 @@ class ExploreScreen extends React.Component {
   componentDidMount() {
     var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
     fetchData(action).then((result) => {
-      console.log('Result')
+      // console.log('Result')
       this.setState({
         pageData: result
       });
@@ -95,7 +95,7 @@ class ExploreScreen extends React.Component {
   }
 
   _renderItem = (item) => {
-    console.log(item);
+    // console.log(item);
     return (
       <TouchableOpacity style={styles.sectionItem}>
         <Image style={styles.itemThumb} source={{ uri: item.imgUrl }} />
@@ -127,7 +127,7 @@ _keyExtractor = ((item, index) => {
 
 render() {
   console.log('Start render');
-  console.log(this.state.pageData);
+  // console.log(this.state.pageData);
   return (
     this.state.pageData.hotAlubmZone ?
     <SectionList

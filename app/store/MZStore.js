@@ -66,7 +66,7 @@ function fetchHomePageData(resolve, reject) {
           imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
           routerUrl: 'mzm://mz.com/e2'
         },
-        
+
       ]
     },
 
@@ -77,20 +77,17 @@ function fetchHomePageData(resolve, reject) {
         {
           title: '测试1',
           imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
+          subtitle: '122',
         },
         {
           title: '测试1',
           imgUrl: 'https://img01.shunliandongli.com/attachment/channelimg/2017/09/nQUUFdx9gyy9vzqDKx79vv9VihZL9X.jpg',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
+          subtitle: '3232'
         },
         {
           title: '测试1',
           imgUrl: 'http://api.shunliandongli.com/v1/Channel/content.json?channel_id=1',
-          subtitlePrefix: '122',
-          subtitleSufix: '3232'
+          subtitle: '3232'
         }
       ]
     }

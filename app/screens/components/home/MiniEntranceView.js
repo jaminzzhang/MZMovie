@@ -11,9 +11,9 @@ export default class MiniEntranceView extends Component {
   }
 
   render() {
-    const zone = this.props.entranceZone;
+    let zone = this.props.entranceZone;
     console.log('Render Entrance Zone.')
-    console.log(zone);
+    // console.log(zone);
     return (
       <View style={styles.entrancesContainer}>
         {
@@ -52,7 +52,7 @@ const styles =  StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      alignItems: 'flex-start',
+      alignItems: 'center',
       justifyContent: 'space-between',
       paddingLeft: 10,
       paddingRight: 10,

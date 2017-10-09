@@ -9,7 +9,10 @@ import UIConstants from '../constants/UIConstants';
 import ActionTypes from '../constants/ActionTypes';
 import { fetchData } from '../store/MZStore';
 
-import MiniEntranceView from './components/home/MiniEntranceView'
+import SectionHeader from './components/SectionHeader'
+import MiniEntranceView from './components/home/MiniEntranceView';
+import SlideView from './components/SlideView';
+import AlbumCell from './components/home/AlbumCell';
 
 
 class HomeScreen extends React.Component {
@@ -28,7 +31,7 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     var action = {type: ActionTypes.HOME_PAGE, playload: 'HomePage'};
     fetchData(action).then((result) => {
-      console.log('Result')
+      // console.log('Result')
       this.setState({
         pageData: result
       });
@@ -42,10 +45,16 @@ class HomeScreen extends React.Component {
     return (
       <View style={{backgroundColor:'#ffffff'}}>
         {
-          this.state.pageData.bannerZone ? this._renderBanner() : null
+          this.state.pageData.bannerZone ?
+           <SlideView
+             style={styles.slide}
+             height={Math.floor(SCREEN_WIDTH*0.333)}
+             slideZone={this.state.pageData.bannerZone} /> : null
         }
         {
-          this.state.pageData.miniEntranceZone ?  <MiniEntranceView entranceZone={this.state.pageData.miniEntranceZone}/> : null
+          this.state.pageData.miniEntranceZone ?
+          <MiniEntranceView
+            entranceZone={this.state.pageData.miniEntranceZone}/> : null
         }
 
       </View>
@@ -54,43 +63,9 @@ class HomeScreen extends React.Component {
 
 
 
-
-  _renderBanner = () => {
-    console.log(this.state.pageData.bannerZone);
+  _renderSectionHeader = (sectionItem) => {
     return (
-      <View>
-        <Swiper
-          height = {Math.floor(SCREEN_WIDTH*0.333)}
-          dotColor ="white"
-          activeDotColor = "#ed6d00"
-          autoplayTimeout={1}
-          paginationStyle  = {[{ position:'absolute',bottom:5,},{bottom:10}]}
-          >
-          {
-            this.state.pageData.bannerZone.items.map((item, i) => {
-              return (
-                <View key={i} style={styles.slide} >
-                  <Image resizeMode='stretch' style={styles.slideImage} source={{ uri: item.imgUrl }} />
-                </View>
-              );
-            })
-          }
-        </Swiper>
-      </View>
-
-    );
-  };
-
-
-  _renderSectionHeader = () => {
-    return (
-      <View style={styles.sectionHeader}>
-        <View style={styles.headerInner}>
-          <Image source={require('../../assets/title_point_r_left.png')}/>
-          <Text style={{marginLeft: 10}}>精评推荐</Text>
-          <Image source={require('../../assets/title_point_r_right.png')}/>
-        </View>
-      </View>
+      <SectionHeader title={sectionItem.section.title} />
     );
   }
 
@@ -118,6 +93,16 @@ class HomeScreen extends React.Component {
   }
 
 
+_renderHotAlbumItem = (itemInfo) => {
+  console.log('_renderHotAlbumItem');
+  console.log(itemInfo);
+
+  return (
+    <AlbumCell albumItem={itemInfo.item} />
+  );
+
+}
+
 _keyExtractor = ((item, index) => {
   let key = "Explore" + item.title + index;
   return key;
@@ -131,14 +116,15 @@ render() {
   return (
     this.state.pageData.hotAlubmZone ?
     <SectionList
-      contentContainerStyle={{ flexDirection: 'row', justifyContent: 'space-between' }}
       stickySectionHeadersEnabled = {false}
       ListHeaderComponent={this._renderHeader}
       renderSectionHeader={this._renderSectionHeader}
       keyExtractor={this._keyExtractor}
-      renderItem={this._renderItem}
       sections={[
-        { key: 'sectionLis', data: this.state.pageData.hotAlubmZone ? this.state.pageData.hotAlubmZone.items : [] }
+        { key: 'sectionList',
+          title: '热门合辑',
+          data: this.state.pageData.hotAlubmZone ? this.state.pageData.hotAlubmZone.items : [],
+          renderItem: this._renderHotAlbumItem }
       ]}>
     </SectionList>
     : null
@@ -159,25 +145,8 @@ const styles = StyleSheet.create({
 
   slide: {
     flex: 1,
-  },
-
-  slideImage: {
-    flex: 1,
-    margin: 10,
-  },
-
-  sectionHeader: {
-    flex: 1,
     width: SCREEN_WIDTH,
-    backgroundColor: '#ededed',
-    paddingTop: 10,
-  },
-
-  headerInner: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    height: Math.floor(SCREEN_WIDTH*0.333)
   },
 
 });
