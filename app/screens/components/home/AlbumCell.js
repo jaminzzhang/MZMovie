@@ -25,7 +25,6 @@ export default class AlbumCell extends Component {
             { itemInfo.subtitle }
           </Text>
         </View>
-        <View style={styles.separator}></View>
       </TouchableOpacity>
     );
   };
@@ -38,8 +37,8 @@ const styles =  StyleSheet.create({
     albumCell: {
       flex: 1,
       flexDirection: 'column',
-      flexWrap: 'wrap',
-      height: 168,
+      flexWrap: 'nowrap',
+      height: 164,
       backgroundColor: '#fefefe'
     },
 

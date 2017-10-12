@@ -35,7 +35,7 @@ const styles =  StyleSheet.create({
       flex: 1,
       width: SCREEN_WIDTH,
       backgroundColor: '#fefefe',
-      height: 44,
+      height: 48,
       justifyContent: 'space-between',
     },
 
@@ -54,7 +54,7 @@ const styles =  StyleSheet.create({
     },
 
     separator: {
-      height: 4,
+      height: 8,
       backgroundColor: '#e9e9ef',
     }
 });

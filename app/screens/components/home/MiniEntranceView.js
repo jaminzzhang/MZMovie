@@ -12,8 +12,12 @@ export default class MiniEntranceView extends Component {
 
   render() {
     let zone = this.props.entranceZone;
-    console.log('Render Entrance Zone.')
+    // console.log('Render Entrance Zone.')
     // console.log(zone);
+    if (zone.items == undefined) {
+      return <View/>;
+    }
+
     return (
       <View style={styles.entrancesContainer}>
         {

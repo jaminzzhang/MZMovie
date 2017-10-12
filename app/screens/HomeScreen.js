@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Dimensions} from 'react-native';
+import { Alert, Animated, StyleSheet, Text, View, SectionList, TouchableOpacity, Image, Dimensions} from 'react-native';
 import Swiper from 'react-native-swiper';
 
 import Global from '../constants/Global';
@@ -9,21 +9,21 @@ import UIConstants from '../constants/UIConstants';
 import ActionTypes from '../constants/ActionTypes';
 import { fetchData } from '../store/MZStore';
 
-import SectionHeader from './components/SectionHeader'
+import SectionHeader from './components/SectionHeader';
+import MoreFooter from './components/MoreFooter';
 import MiniEntranceView from './components/home/MiniEntranceView';
 import SlideView from './components/SlideView';
 import AlbumCell from './components/home/AlbumCell';
+import FilmReviewCell from './components/home/FilmReviewCell';
 
-
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
+const SectionItemSeparator = () => (<View style={styles.separator}></View>);
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      pageData: {
-        bannerZone: {},
-        miniEntranceZone: {}
-      }
+      pageData: null
     }
   }
 
@@ -68,29 +68,13 @@ class HomeScreen extends React.Component {
       <SectionHeader title={sectionItem.section.title} />
     );
   }
+_renderSectionFooter = (sectionItem) => {
+  return (
+    <MoreFooter moreAction={this._moreAlbumAction}/>
+  );
+}
 
-  _renderItem = (item) => {
-    console.log(item);
-    return (
-      <TouchableOpacity style={styles.sectionItem}>
-        <Image style={styles.itemThumb} source={{ uri: item.imgUrl }} />
-        <View style={styles.itemTitleView}>
-          <Text style={styles.itemTitle} numberOfLines={2}>
-            { item.title }
-          </Text>
-        </View>
-        <View style={styles.itemSubtitleView}>
-          <Text style={styles.itemSubtitlePrefix}>
-            { item.subtitlePrefix }
-          </Text>
-          <Text style={styles.itemSubtitleSufix}>
-            { item.subtitleSufix }
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
 
-  }
 
 
 _renderHotAlbumItem = (itemInfo) => {
@@ -103,6 +87,23 @@ _renderHotAlbumItem = (itemInfo) => {
 
 }
 
+
+_renderFilmReviewItem = (itemInfo) => {
+  console.log('_renderFilmReviewItem');
+  console.log(itemInfo);
+  return (
+    <FilmReviewCell reviewItem={itemInfo.item} />
+  );
+}
+
+
+_renderCellSeparator = (sectionID, rowID, adjacentRowHighlighted) => {
+  console.log('_renderSeparator');
+  return (
+    <View style={styles.cellSeparator}></View>
+  );
+}
+
 _keyExtractor = ((item, index) => {
   let key = "Explore" + item.title + index;
   return key;
@@ -113,23 +114,58 @@ _keyExtractor = ((item, index) => {
 render() {
   console.log('Start render');
   console.log(this.state.pageData);
+  if (this.state.pageData == undefined) {
+    return (<View/>);
+  }
+
+  let sectionList = [];
+  let hotAlubmZone = this.state.pageData.hotAlubmZone;
+  if (hotAlubmZone.items != undefined) {
+    let albumSeciton = {
+      key: 'HotAlbum',
+      title: hotAlubmZone.title ? hotAlubmZone.title : '',
+      data: hotAlubmZone.items,
+      renderItem: this._renderHotAlbumItem
+    }
+    sectionList.push(albumSeciton);
+  }
+
+  let filmReviewZone = this.state.pageData.filmReviewZone;
+  if (filmReviewZone.items != undefined) {
+    let filmReviewSeciton = {
+      key: 'FilmReview',
+      title: filmReviewZone.title ? filmReviewZone.title : '',
+      data: filmReviewZone.items,
+      renderItem: this._renderFilmReviewItem
+    }
+    sectionList.push(filmReviewSeciton);
+  }
+
+  console.log(sectionList);
   return (
-    this.state.pageData.hotAlubmZone ?
-    <SectionList
+    <AnimatedSectionList
       stickySectionHeadersEnabled = {false}
       ListHeaderComponent={this._renderHeader}
       renderSectionHeader={this._renderSectionHeader}
+      renderSectionFooter={this._renderSectionFooter}
+      renderSeparator={this._renderSeparator}
       keyExtractor={this._keyExtractor}
-      sections={[
-        { key: 'sectionList',
-          title: '热门合辑',
-          data: this.state.pageData.hotAlubmZone ? this.state.pageData.hotAlubmZone.items : [],
-          renderItem: this._renderHotAlbumItem }
-      ]}>
-    </SectionList>
-    : null
-  );
-}
+      ItemSeparatorComponent={this._renderCellSeparator}
+
+      sections={sectionList} />
+    );
+  }
+
+
+  _moreAlbumAction = ()=> {
+
+  }
+
+  _moreFilmReviewAction = ()=> {
+
+  }
+
+
 
 }
 
@@ -148,6 +184,11 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: Math.floor(SCREEN_WIDTH*0.333)
   },
+
+  cellSeparator: {
+    height: 0.5,
+    backgroundColor: '#e9e9ef'
+  }
 
 });
 
